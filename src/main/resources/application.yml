@@ -1,0 +1,10 @@
+# Application Config
+server:
+  servlet:
+    context-path: /api/v1/osrs
+
+# Custom Variables
+jagex:
+  baseUrl: https://secure.runescape.com
+  endpoints:
+    playerHighscore: ${jagex.baseUrl}/m=hiscore_oldschool/index_lite.ws?player=
