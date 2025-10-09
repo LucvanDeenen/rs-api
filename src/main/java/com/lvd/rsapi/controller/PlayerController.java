@@ -46,7 +46,7 @@ public class PlayerController {
       final var result = restTemplate.getForObject(name, String.class);
       if (result == null) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }gs
+      } 
 
       final var player = playerService.formatResult(result);
       return new ResponseEntity<>(player, HttpStatus.OK);
