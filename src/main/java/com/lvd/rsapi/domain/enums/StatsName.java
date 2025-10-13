@@ -1,4 +1,4 @@
-package com.lvd.rsapi.domain;
+package com.lvd.rsapi.domain.enums;
 
 /**
  * Enum used for stats values.

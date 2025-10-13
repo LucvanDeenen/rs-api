@@ -6,5 +6,3 @@ server:
 # Custom Variables
 jagex:
   baseUrl: https://secure.runescape.com
-  endpoints:
-    playerHighscore: ${jagex.baseUrl}/m=hiscore_oldschool/index_lite.ws?player=

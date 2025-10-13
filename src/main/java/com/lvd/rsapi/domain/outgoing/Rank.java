@@ -1,4 +1,4 @@
-package com.lvd.rsapi.domain;
+package com.lvd.rsapi.domain.outgoing;
 
 import lombok.Data;
 

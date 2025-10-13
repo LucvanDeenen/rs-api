@@ -1,7 +1,10 @@
 package com.lvd.rsapi.controller;
 
+import static com.lvd.rsapi.constants.Constants.PLAYER_QUERY;
+
 import com.lvd.rsapi.constants.Constants;
-import com.lvd.rsapi.domain.Player;
+import com.lvd.rsapi.domain.enums.HiscoreEndpoints;
+import com.lvd.rsapi.domain.outgoing.Player;
 import com.lvd.rsapi.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,12 +46,16 @@ public class PlayerController {
   @GetMapping
   public ResponseEntity<Player> getPlayer(@RequestParam String name) {
     try {
-      final var result = restTemplate.getForObject(name, String.class);
+      String value = HiscoreEndpoints.NORMAL.getEndpoint();
+      String resource = value + PLAYER_QUERY + name;
+
+      final var result = restTemplate.getForObject(resource, String.class);
       if (result == null) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       } 
 
-      final var player = playerService.formatResult(result);
+
+      final Player player = playerService.formatResult(result);
       return new ResponseEntity<>(player, HttpStatus.OK);
     } catch (Exception exception) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
