@@ -8,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum HiscoreEndpoints {
+public enum Highscores {
   NORMAL("Normal", "/m=hiscore_oldschool/index_lite.json"), IRONMAN("Ironman",
       "/m=hiscore_oldschool_ironman/index_lite.json"), HARDCORE_IRONMAN("Hardcore Ironman",
       "/m=hiscore_oldschool_hardcore_ironman/index_lite.json"), ULTIMATE_IRONMAN("Ultimate Ironman",

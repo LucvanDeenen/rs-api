@@ -1,7 +1,8 @@
 package com.lvd.rsapi.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lvd.rsapi.domain.outgoing.Player;
+import com.lvd.rsapi.domain.dto.User;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,16 +25,18 @@ public class PlayerService {
   /**
    * Helps set the values of the result.
    *
-   * @param res formats a json value.
+   * @param result formats a json value.
    * @return instantiated player object.
    */
-  public Player formatResult(String res) {
-    if (res == null) {
+  public User formatResult(String result) throws JsonProcessingException {
+    if (result == null || result.isEmpty()) {
       return null;
     }
 
-    // ADD SOME VALIDATIONS HERE.
+    if (result.trim().startsWith("\"") && result.trim().endsWith("\"")) {
+      result = objectMapper.readValue(result, String.class);
+    }
 
-    return objectMapper.convertValue(res, Player.class);
+    return objectMapper.readValue(result, User.class);
   }
 }

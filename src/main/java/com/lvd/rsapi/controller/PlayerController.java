@@ -3,8 +3,8 @@ package com.lvd.rsapi.controller;
 import static com.lvd.rsapi.constants.Constants.PLAYER_QUERY;
 
 import com.lvd.rsapi.constants.Constants;
-import com.lvd.rsapi.domain.enums.HiscoreEndpoints;
-import com.lvd.rsapi.domain.outgoing.Player;
+import com.lvd.rsapi.domain.enums.Highscores;
+import com.lvd.rsapi.domain.dto.User;
 import com.lvd.rsapi.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,23 +40,32 @@ public class PlayerController {
   /**
    * Endpoint for fetching a player by name.
    *
-   * @param name input for searching the user.
+   * @param name      input for searching the user.
+   * @param highscore the type of account.
    * @return Instantiated and formatted found player.
    */
   @GetMapping
-  public ResponseEntity<Player> getPlayer(@RequestParam String name) {
-    try {
-      String value = HiscoreEndpoints.NORMAL.getEndpoint();
-      String resource = value + PLAYER_QUERY + name;
+  public ResponseEntity<User> getPlayer(@RequestParam String name, @RequestParam String highscore) {
+    if (name == null || name.isBlank() || highscore == null || highscore.isBlank()) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
-      final var result = restTemplate.getForObject(resource, String.class);
+    final Highscores type;
+    try {
+      type = Highscores.valueOf(highscore.trim().toUpperCase());
+    } catch (IllegalArgumentException e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    final String resource = type.getEndpoint() + PLAYER_QUERY + name;
+    try {
+      var result = restTemplate.getForObject(resource, String.class);
       if (result == null) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      } 
+      }
 
-
-      final Player player = playerService.formatResult(result);
-      return new ResponseEntity<>(player, HttpStatus.OK);
+      final User user = playerService.formatResult(result);
+      return new ResponseEntity<>(user, HttpStatus.OK);
     } catch (Exception exception) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
