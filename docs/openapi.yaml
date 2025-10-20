@@ -1,0 +1,115 @@
+openapi: 3.1.0
+info:
+  title: RuneScape API Wrapper
+  version: 1.0.0
+  description: >
+    API for fetching Old School RuneScape player stats via the public hiscores endpoints.
+
+servers:
+  - url: https://rs-api.dedeen.dev/api/v1/osrs
+    description: Production server
+
+paths:
+  /stats:
+    get:
+      summary: Fetch a player's stats
+      description: >
+        Retrieves detailed hiscore data for a given player from the selected highscore type.
+      operationId: getPlayer
+      parameters:
+        - name: name
+          in: query
+          description: The RuneScape username to look up.
+          required: true
+          schema:
+            type: string
+            example: "rattesjtaart"
+        - name: highscore
+          in: query
+          description: The highscore category to query.
+          required: true
+          schema:
+            type: string
+            enum:
+              - NORMAL
+              - IRONMAN
+              - HARDCORE_IRONMAN
+              - ULTIMATE_IRONMAN
+              - DEADMAN
+              - SEASONAL
+              - TOURNAMENT
+              - FRESH_START_WORLD
+              - PURE
+              - LEVEL_3_SKILLER
+            example: "NORMAL"
+      responses:
+        '200':
+          description: Player stats successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input (missing or invalid parameters).
+        '404':
+          description: Player not found.
+        '500':
+          description: Unexpected error occurred during retrieval.
+
+components:
+  schemas:
+    User:
+      type: object
+      description: Structured player profile with stats and activities.
+      properties:
+        name:
+          type: string
+          example: "rattesjtaart"
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/Skill'
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Activity'
+
+    Skill:
+      type: object
+      description: Skill entry from the OSRS hiscores.
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Attack"
+        rank:
+          type: integer
+          example: 47713
+        level:
+          type: integer
+          example: 99
+        xp:
+          type: integer
+          example: 27262136
+
+    Activity:
+      type: object
+      description: Activity or minigame entry from the OSRS hiscores.
+      properties:
+        id:
+          type: integer
+          example: 4
+        name:
+          type: string
+          example: "Barrows Chests"
+        rank:
+          type: integer
+          example: 609283
+        score:
+          oneOf:
+            - type: integer
+              example: 74
+            - type: string
+              example: "unranked"
