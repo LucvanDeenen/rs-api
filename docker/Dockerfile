@@ -1,5 +1,31 @@
-FROM openjdk:11
-MAINTAINER LvanDeenen
-ARG JAR_FILE=target/RSAPI-1.0.0-SNAPSHOT.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+# =========================
+# Stage 1 — Build with Maven
+# =========================
+FROM maven:3.9.9-eclipse-temurin-17 AS build
+
+WORKDIR /app
+COPY ../pom.xml .
+COPY ../app ./app
+RUN mvn -f app/application/pom.xml clean package -DskipTests
+
+# =========================
+# Stage 2 — Runtime image
+# =========================
+FROM eclipse-temurin:17-jre
+
+WORKDIR /app
+COPY --from=build /app/app/application/target/*.jar app.jar
+
+# Expose the default port (Render uses $PORT env)
+EXPOSE 8080
+
+# Environment variable for Render (dynamic port)
+ENV PORT=8080
+ENV JAVA_OPTS=""
+
+# Healthcheck for Docker (optional)
+HEALTHCHECK --interval=30s --timeout=5s \
+  CMD curl -f http://localhost:${PORT}/actuator/health || exit 1
+
+# Run the application
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar --server.port=${PORT}"]
