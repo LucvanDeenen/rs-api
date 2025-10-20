@@ -26,9 +26,6 @@ jobs:
           java-version: 17
           cache: maven
 
-      - name: Build Maven project
-        run: mvn clean package -DskipTests
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
