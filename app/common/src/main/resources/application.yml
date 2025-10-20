@@ -1,0 +1,9 @@
+# Application Config
+server:
+  port: ${PORT:8080}
+  servlet:
+    contextPath: /api/v1/osrs
+
+# Custom Variables
+jagex:
+  baseUrl: https://secure.runescape.com
