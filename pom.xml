@@ -6,7 +6,6 @@
   <modelVersion>4.0.0</modelVersion>
   <modules>
     <module>app</module>
-    <module>docker</module>
   </modules>
   <packaging>pom</packaging>
 
