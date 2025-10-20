@@ -47,9 +47,11 @@ jobs:
             ${{ env.IMAGE_FULL }}:${{ github.sha }}
 
   redeploy:
-    needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
+    needs: build
+    environment:
+      name: production
+      url: https://rs-api-dvot.onrender.com
     steps:
       - name: Trigger Render redeploy
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
