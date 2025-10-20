@@ -9,7 +9,7 @@ env:
   REGISTRY: docker.io
   IMAGE_NAME: rs-api
   IMAGE_FULL: docker.io/lucvandeenen/rs-api
-  DOCKERFILE_PATH: ./docker/Dockerfile
+  DOCKERFILE_PATH: ./Dockerfile
 
 jobs:
   build:
