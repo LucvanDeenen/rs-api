@@ -18,7 +18,7 @@ FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 # Copy the JAR built in the previous stage
-COPY --from=build /app/app/application/target/*.jar app.jar
+COPY --from=build /app/app/startup/target/*.jar app.jar
 
 # Expose the default port (Render uses $PORT env)
 EXPOSE 8080
@@ -29,7 +29,7 @@ ENV JAVA_OPTS=""
 
 # Healthcheck for Docker (optional)
 HEALTHCHECK --interval=30s --timeout=5s \
-  CMD curl -f http://localhost:${PORT}/actuator/health || exit 1
+  CMD curl -f http://localhost:${PORT}/api/v1/osrs/actuator/health || exit 1
 
 # Run the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar --server.port=${PORT}"]
