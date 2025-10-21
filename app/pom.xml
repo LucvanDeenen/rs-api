@@ -40,5 +40,6 @@
   <properties>
     <logback.version>1.5.19</logback.version>
     <mapstruct.version>1.5.5-FINAL</mapstruct.version>
+    <openapi.version>7.6.0</openapi.version>
   </properties>
 </project>

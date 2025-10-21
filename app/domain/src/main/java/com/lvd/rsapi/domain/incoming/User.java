@@ -1,4 +1,4 @@
-package com.lvd.rsapi.incoming.dto;
+package com.lvd.rsapi.domain.incoming;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;

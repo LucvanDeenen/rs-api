@@ -5,6 +5,7 @@
   <groupId>com.lvd.rsapi</groupId>
   <modelVersion>4.0.0</modelVersion>
   <modules>
+    <module>docs</module>
     <module>app</module>
   </modules>
   <packaging>pom</packaging>

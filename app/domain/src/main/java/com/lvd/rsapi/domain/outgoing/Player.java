@@ -1,4 +1,4 @@
-package com.lvd.rsapi.incoming.outgoing;
+package com.lvd.rsapi.domain.outgoing;
 
 import java.util.Map;
 import lombok.Data;

@@ -2,19 +2,118 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>rsapi-endpoints</artifactId>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <configuration>
+                <sources>
+                  <source>${project.build.directory}/generated-sources/openapi/src/main/java</source>
+                </sources>
+              </configuration>
+              <goals>
+                <goal>add-source</goal>
+              </goals>
+              <id>add-source</id>
+              <phase>generate-sources</phase>
+            </execution>
+          </executions>
+          <groupId>org.codehaus.mojo</groupId>
+          <version>3.5.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <artifactId>docs</artifactId>
+                  <classifier>schema</classifier>
+                  <destFileName>schema.yaml</destFileName>
+                  <groupId>${project.groupId}</groupId>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <overWrite>true</overWrite>
+                  <type>yaml</type>
+                  <version>${project.version}</version>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <id>copy</id>
+            <phase>generate-sources</phase>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+      <plugin>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <apiPackage>com.lvd.rsapi.generated.api</apiPackage>
+
+              <configOptions>
+                <interfaceOnly>true</interfaceOnly>
+                <java17>true</java17>
+                <skipDefaultInterface>true</skipDefaultInterface>
+                <useSpringBoot3>true</useSpringBoot3>
+                <useTags>true</useTags>
+              </configOptions>
+
+              <generatorName>spring</generatorName>
+              <inputSpec>${project.build.directory}/schema.yaml</inputSpec>
+              <invokerPackage>com.lvd.rsapi.generated.invoker</invokerPackage>
+              <modelPackage>com.lvd.rsapi.generated.model</modelPackage>
+
+              <output>${project.build.directory}/generated-sources/openapi</output>
+            </configuration>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <id>generate-spring-api</id>
+          </execution>
+        </executions>
+        <groupId>org.openapitools</groupId>
+        <version>${openapi.version}</version>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <artifactId>spring-boot-starter-web</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
+
+    <!-- Layer Dependency -->
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <scope>provided</scope>
+      <artifactId>docs</artifactId>
+      <groupId>com.lvd.rsapi</groupId>
+      <classifier>schema</classifier>
+      <type>yaml</type>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>rsapi-common</artifactId>
+      <groupId>com.lvd.rsapi</groupId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>rsapi-services</artifactId>
+      <groupId>com.lvd.rsapi</groupId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
-  <modelVersion>4.0.0</modelVersion>
 
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>app</artifactId>
     <groupId>com.lvd.rsapi</groupId>

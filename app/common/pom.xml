@@ -12,6 +12,10 @@
       <artifactId>spring-web</artifactId>
       <groupId>org.springframework</groupId>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
   </dependencies>
   <modelVersion>4.0.0</modelVersion>
 

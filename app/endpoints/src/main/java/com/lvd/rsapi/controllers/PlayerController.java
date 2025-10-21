@@ -1,9 +1,8 @@
 package com.lvd.rsapi.controllers;
 
 import com.lvd.rsapi.constants.Constants;
-import com.lvd.rsapi.incoming.dto.User;
-import com.lvd.rsapi.incoming.enums.Highscores;
-import com.lvd.rsapi.service.PlayerService;
+import com.lvd.rsapi.domain.outgoing.Player;
+import com.lvd.rsapi.service.PlayerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Controller exposing player details.
@@ -20,8 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping(Constants.STATS_ENDPOINT)
 public class PlayerController {
 
-  private final PlayerService playerService;
-  private final RestTemplate restTemplate;
+  private final PlayerServiceImpl playerService;
 
   /**
    * Constructor for the Player controller.
@@ -30,9 +27,8 @@ public class PlayerController {
    * @param restTemplate  rest template setup provided by bean.
    */
   @Autowired
-  public PlayerController(PlayerService playerService, RestTemplate restTemplate) {
+  public PlayerController(PlayerServiceImpl playerService) {
     this.playerService = playerService;
-    this.restTemplate = restTemplate;
   }
 
   /**
@@ -43,27 +39,10 @@ public class PlayerController {
    * @return Instantiated and formatted found player.
    */
   @GetMapping
-  public ResponseEntity<User> getPlayer(@RequestParam String name, @RequestParam String highscore) {
-    if (name == null || name.isBlank() || highscore == null || highscore.isBlank()) {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    final Highscores type;
+  public ResponseEntity<Player> getPlayer(@RequestParam String name, @RequestParam String highscore) {
     try {
-      type = Highscores.valueOf(highscore.trim().toUpperCase());
-    } catch (IllegalArgumentException e) {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    final String resource = type.getEndpoint() + Constants.PLAYER_QUERY + name;
-    try {
-      var result = restTemplate.getForObject(resource, String.class);
-      if (result == null) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
-
-      final User user = playerService.formatResult(result);
-      return new ResponseEntity<>(user, HttpStatus.OK);
+      final Player player = playerService.getUser(name, highscore);
+      return new ResponseEntity<>(player, HttpStatus.OK);
     } catch (Exception exception) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

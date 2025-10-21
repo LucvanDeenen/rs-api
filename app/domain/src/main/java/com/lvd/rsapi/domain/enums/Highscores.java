@@ -1,4 +1,4 @@
-package com.lvd.rsapi.incoming.enums;
+package com.lvd.rsapi.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
