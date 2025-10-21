@@ -23,8 +23,11 @@ public class CorsConfig {
       @Override
       public void addCorsMappings(@NonNull CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("https://editor.swagger.io", "https://petstore.swagger.io", "https://rs-api.dedeen.dev",
-                "*").allowedMethods("GET", "POST", "OPTIONS").allowedHeaders("*").allowCredentials(false).maxAge(3600);
+            .allowedOrigins("*")
+            .allowedMethods("GET", "POST", "OPTIONS")
+            .allowedHeaders("*")
+            .allowCredentials(false)
+            .maxAge(3600);
       }
     };
   }
