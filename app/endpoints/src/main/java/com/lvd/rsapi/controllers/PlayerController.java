@@ -24,7 +24,6 @@ public class PlayerController {
    * Constructor for the Player controller.
    *
    * @param playerService service layer connector.
-   * @param restTemplate  rest template setup provided by bean.
    */
   @Autowired
   public PlayerController(PlayerServiceImpl playerService) {
