@@ -2,7 +2,7 @@ package com.lvd.rsapi.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.lvd.rsapi.api.PlayerService;
-import com.lvd.rsapi.domain.outgoing.Player;
+import com.lvd.rsapi.generated.model.Player;
 import com.lvd.rsapi.util.Formatter;
 import org.springframework.stereotype.Service;
 
@@ -52,13 +52,13 @@ public class PlayerServiceImpl implements PlayerService {
       // GET DATA
 
       // FORMAT DATA
-      final Player player = formatter.formatString("");
+//      final Player player = formatter.formatString("");
 
       // ENHANCE
 
       // RETURN
-      return player;
-    } catch (JsonProcessingException e) {
+      return new Player();
+    } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }

@@ -1,22 +1,19 @@
-package com.lvd.rsapi.controllers;
+package com.lvd.rsapi.delegates;
 
-import com.lvd.rsapi.constants.Constants;
-import com.lvd.rsapi.domain.outgoing.Player;
+import com.lvd.rsapi.generated.api.StatsApiDelegate;
+import com.lvd.rsapi.generated.model.Player;
 import com.lvd.rsapi.service.PlayerServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller exposing player details.
  */
-@RestController
-@RequestMapping(Constants.STATS_ENDPOINT)
-public class PlayerController {
+@Service
+public class StatsApiDelegateImpl implements StatsApiDelegate {
 
   private final PlayerServiceImpl playerService;
 
@@ -25,8 +22,7 @@ public class PlayerController {
    *
    * @param playerService service layer connector.
    */
-  @Autowired
-  public PlayerController(PlayerServiceImpl playerService) {
+  public StatsApiDelegateImpl(PlayerServiceImpl playerService) {
     this.playerService = playerService;
   }
 
@@ -38,10 +34,11 @@ public class PlayerController {
    * @return Instantiated and formatted found player.
    */
   @GetMapping
-  public ResponseEntity<Player> getPlayer(@RequestParam String name, @RequestParam String highscore) {
+  public ResponseEntity<Player> getPlayer(@RequestParam String name,
+      @RequestParam String highscore) {
     try {
-      final Player player = playerService.getUser(name, highscore);
-      return new ResponseEntity<>(player, HttpStatus.OK);
+//      final Player player = playerService.getUser(name, highscore);
+      return new ResponseEntity<>(new Player(), HttpStatus.OK);
     } catch (Exception exception) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

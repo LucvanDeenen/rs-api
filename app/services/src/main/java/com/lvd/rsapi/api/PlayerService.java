@@ -1,6 +1,7 @@
 package com.lvd.rsapi.api;
 
-import com.lvd.rsapi.domain.outgoing.Player;
+
+import com.lvd.rsapi.generated.model.Player;
 
 /**
  * Player business logic.

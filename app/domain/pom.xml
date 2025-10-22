@@ -1,16 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>rsapi-domain</artifactId>
+  <build>
+    <plugins>
+      <!-- Spec copy -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/../../docs/target/classes</directory>
+                  <includes>
+                    <include>openapi.yaml</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <id>copy-openapi-spec</id>
+            <phase>generate-sources</phase>
+          </execution>
+        </executions>
+        <version>${maven-resource.version}</version>
+      </plugin>
+
+      <!-- Model Generation -->
+      <plugin>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <apiPackage>${codegen.directory}.api</apiPackage>
+              <configOptions>
+                <delegatePattern>true</delegatePattern>
+                <useSpringBoot3>true</useSpringBoot3>
+              </configOptions>
+              <generateApis>false</generateApis>
+              <generateModels>true</generateModels>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <generatorName>spring</generatorName>
+              <inputSpec>
+                ${project.build.directory}/openapi.yaml
+              </inputSpec>
+              <modelPackage>${codegen.directory}.model</modelPackage>
+            </configuration>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <id>generate-domain-models</id>
+          </execution>
+        </executions>
+        <groupId>org.openapitools</groupId>
+        <version>${openapi.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
+    <!-- Runtime -->
+    <dependency>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>swagger-parser</artifactId>
+      <groupId>io.swagger.parser.v3</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <groupId>org.openapitools</groupId>
+    </dependency>
     <dependency>
       <artifactId>lombok</artifactId>
       <groupId>org.projectlombok</groupId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
     </dependency>
   </dependencies>
   <modelVersion>4.0.0</modelVersion>

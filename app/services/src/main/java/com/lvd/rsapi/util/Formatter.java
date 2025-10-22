@@ -2,7 +2,7 @@ package com.lvd.rsapi.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lvd.rsapi.domain.outgoing.Player;
+import com.lvd.rsapi.domain.response.Player;
 import org.springframework.stereotype.Component;
 
 /**

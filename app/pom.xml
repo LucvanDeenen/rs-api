@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>app</artifactId>
   <dependencyManagement>
@@ -14,6 +15,35 @@
         <artifactId>logback-classic</artifactId>
         <groupId>ch.qos.logback</groupId>
         <version>${logback.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons-lang3.version}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>${commons-lang.version}</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <!-- Dependency management-->
+      <dependency>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <groupId>org.springdoc</groupId>
+        <version>${springdoc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.swagger.parser.v3</groupId>
+        <artifactId>swagger-parser</artifactId>
+        <version>${swagger-parser.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>jackson-databind-nullable</artifactId>
+        <groupId>org.openapitools</groupId>
+        <version>${openapi.jackson.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -38,8 +68,19 @@
   </parent>
 
   <properties>
+    <!-- CVE -->
     <logback.version>1.5.19</logback.version>
+    <commons-lang3.version>3.18.0</commons-lang3.version>
+    <common-lang.version>2.6-fix-placeholder</common-lang.version>
+
+    <!-- Generic -->
     <mapstruct.version>1.5.5-FINAL</mapstruct.version>
-    <openapi.version>7.6.0</openapi.version>
+
+    <!-- openapi generator -->
+    <swagger-parser.version>2.1.35</swagger-parser.version>
+    <springdoc.version>2.6.0</springdoc.version>
+    <openapi.jackson.version>0.2.1</openapi.jackson.version>
+    <openapi.version>7.16.0</openapi.version>
+    <codegen.directory>com.lvd.rsapi.generated</codegen.directory>
   </properties>
 </project>
