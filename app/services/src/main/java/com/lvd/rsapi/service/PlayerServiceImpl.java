@@ -1,9 +1,15 @@
 package com.lvd.rsapi.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import static com.lvd.rsapi.constants.CommonConstants.ACCOUNT_TYPE;
+import static com.lvd.rsapi.constants.CommonConstants.NAME;
+
 import com.lvd.rsapi.api.PlayerService;
+import com.lvd.rsapi.api.RunescapeConnector;
+import com.lvd.rsapi.domain.enums.AccountType;
+import com.lvd.rsapi.domain.osrs.User;
 import com.lvd.rsapi.generated.model.Player;
-import com.lvd.rsapi.util.Formatter;
+import com.lvd.rsapi.mappers.PlayerMapper;
+import com.lvd.rsapi.util.Validator;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,54 +18,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlayerServiceImpl implements PlayerService {
 
-  private final Formatter formatter;
+  private final RunescapeConnector connector;
+  private final PlayerMapper mapper;
 
   /**
-   * Player Service constructor, that uses injector based .
+   * Player service constructor.
    *
-   * @param formatter autowired bean.
+   * @param connector helps with interaction of the runescape API.
    */
-  public PlayerServiceImpl(Formatter formatter) {
-    this.formatter = formatter;
+  public PlayerServiceImpl(RunescapeConnector connector, PlayerMapper mapper) {
+    this.connector = connector;
+    this.mapper = mapper;
   }
 
   @Override
-  public Player getUser(String username, String highscores) {
-//    if (username == null || username.isBlank()) {
-//      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
-//
-//    final Highscores type;
-//    try {
-//      if (highscore == null || highscore.isBlank()) {
-//
-//      }
-//      type = Highscores.valueOf(highscore.trim().toUpperCase());
-//    } catch (IllegalArgumentException e) {
-//      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
-//
-//    final String resource = type.getEndpoint() + Constants.PLAYER_QUERY + username;
-//    try {
-//      var result = restTemplate.getForObject(resource, String.class);
-//      if (result == null) {
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//      }
+  public Player getPlayer(String username, String type) {
+    Validator.checkEmpty(username, NAME);
+    AccountType accountType = Validator.parseEnum(
+        type,
+        ACCOUNT_TYPE,
+        AccountType.class,
+        AccountType.NORMAL
+    );
 
-    try {
-      // VALIDATE
-
-      // GET DATA
-
-      // FORMAT DATA
-//      final Player player = formatter.formatString("");
-
-      // ENHANCE
-
-      // RETURN
-      return new Player();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+    User user = connector.getUser(username, accountType);
+    return mapper.toPlayer(user);
   }
 }

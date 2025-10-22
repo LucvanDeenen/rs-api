@@ -2,7 +2,7 @@ package com.lvd.rsapi.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lvd.rsapi.domain.response.Player;
+import com.lvd.rsapi.domain.osrs.User;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,6 +13,11 @@ public class Formatter {
 
   private final ObjectMapper objectMapper;
 
+  /**
+   * Formatter utility constructor.
+   *
+   * @param objectMapper an autowired configured object mapper.
+   */
   public Formatter(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
   }
@@ -23,7 +28,7 @@ public class Formatter {
    * @param data a JSON string.
    * @return an instance of the Player Object.
    */
-  public Player formatString(String data) throws JsonProcessingException {
+  public User formatString(String data) throws JsonProcessingException {
     if (data == null || data.isEmpty()) {
       return null;
     }
@@ -32,6 +37,6 @@ public class Formatter {
       data = objectMapper.readValue(data, String.class);
     }
 
-    return objectMapper.readValue(data, Player.class);
+    return objectMapper.readValue(data, User.class);
   }
 }

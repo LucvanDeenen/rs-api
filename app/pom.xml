@@ -17,16 +17,16 @@
         <version>${logback.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>${commons-lang3.version}</version>
+        <groupId>org.apache.commons</groupId>
         <scope>compile</scope>
+        <version>${commons-lang3.version}</version>
       </dependency>
       <dependency>
-        <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
-        <version>${commons-lang.version}</version>
+        <groupId>commons-lang</groupId>
         <scope>compile</scope>
+        <version>${commons-lang.version}</version>
       </dependency>
 
       <!-- Dependency management-->
@@ -36,8 +36,8 @@
         <version>${springdoc.version}</version>
       </dependency>
       <dependency>
-        <groupId>io.swagger.parser.v3</groupId>
         <artifactId>swagger-parser</artifactId>
+        <groupId>io.swagger.parser.v3</groupId>
         <version>${swagger-parser.version}</version>
       </dependency>
       <dependency>
@@ -68,19 +68,18 @@
   </parent>
 
   <properties>
-    <!-- CVE -->
-    <logback.version>1.5.19</logback.version>
-    <commons-lang3.version>3.18.0</commons-lang3.version>
+    <codegen.directory>com.lvd.rsapi.generated</codegen.directory>
     <common-lang.version>2.6-fix-placeholder</common-lang.version>
+    <commons-lang3.version>3.18.0</commons-lang3.version>
 
-    <!-- Generic -->
-    <mapstruct.version>1.5.5-FINAL</mapstruct.version>
+    <logback.version>1.5.19</logback.version>
+    <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
+    <mapstruct.version>1.6.3</mapstruct.version>
 
-    <!-- openapi generator -->
-    <swagger-parser.version>2.1.35</swagger-parser.version>
-    <springdoc.version>2.6.0</springdoc.version>
+    <maven-compiler.version>3.10.1</maven-compiler.version>
     <openapi.jackson.version>0.2.1</openapi.jackson.version>
     <openapi.version>7.16.0</openapi.version>
-    <codegen.directory>com.lvd.rsapi.generated</codegen.directory>
+    <springdoc.version>2.6.0</springdoc.version>
+    <swagger-parser.version>2.1.35</swagger-parser.version>
   </properties>
 </project>

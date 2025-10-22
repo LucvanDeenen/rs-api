@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Configuration;
 public class JsonConfig {
 
 
+  /**
+   * Object mapper config.
+   *
+   * @return instantiated object mapper with config.
+   */
   @Bean
   public ObjectMapper objectMapper() {
     return new ObjectMapper();

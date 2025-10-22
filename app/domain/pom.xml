@@ -37,12 +37,13 @@
         <executions>
           <execution>
             <configuration>
-              <apiPackage>${codegen.directory}.api</apiPackage>
               <configOptions>
                 <delegatePattern>true</delegatePattern>
                 <useSpringBoot3>true</useSpringBoot3>
               </configOptions>
+              <generateApiTests>false</generateApiTests>
               <generateApis>false</generateApis>
+              <generateModelTests>false</generateModelTests>
               <generateModels>true</generateModels>
               <generateSupportingFiles>false</generateSupportingFiles>
               <generatorName>spring</generatorName>

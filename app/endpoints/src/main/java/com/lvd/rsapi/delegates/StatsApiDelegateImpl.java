@@ -1,5 +1,6 @@
 package com.lvd.rsapi.delegates;
 
+import com.lvd.rsapi.api.PlayerService;
 import com.lvd.rsapi.generated.api.StatsApiDelegate;
 import com.lvd.rsapi.generated.model.Player;
 import com.lvd.rsapi.service.PlayerServiceImpl;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Service
 public class StatsApiDelegateImpl implements StatsApiDelegate {
 
-  private final PlayerServiceImpl playerService;
+  private final PlayerService playerService;
 
   /**
    * Constructor for the Player controller.
@@ -29,18 +30,18 @@ public class StatsApiDelegateImpl implements StatsApiDelegate {
   /**
    * Endpoint for fetching a player by name.
    *
-   * @param name      input for searching the user.
-   * @param highscore the type of account.
+   * @param name        input for searching the user.
+   * @param accountType the accountType of account.
    * @return Instantiated and formatted found player.
    */
   @GetMapping
   public ResponseEntity<Player> getPlayer(@RequestParam String name,
-      @RequestParam String highscore) {
+      @RequestParam String accountType) {
     try {
-//      final Player player = playerService.getUser(name, highscore);
-      return new ResponseEntity<>(new Player(), HttpStatus.OK);
+      final Player player = playerService.getPlayer(name, accountType);
+      return new ResponseEntity<>(player, HttpStatus.OK);
     } catch (Exception exception) {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
     }
   }
 }
