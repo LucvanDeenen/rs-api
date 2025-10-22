@@ -9,6 +9,12 @@
     </dependency>
     <dependency>
       <groupId>com.lvd.rsapi</groupId>
+      <artifactId>rsapi-common</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.lvd.rsapi</groupId>
       <artifactId>rsapi-domain</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>

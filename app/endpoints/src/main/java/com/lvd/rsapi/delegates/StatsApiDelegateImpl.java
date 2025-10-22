@@ -37,11 +37,7 @@ public class StatsApiDelegateImpl implements StatsApiDelegate {
   @GetMapping
   public ResponseEntity<Player> getPlayer(@RequestParam String name,
       @RequestParam String accountType) {
-    try {
-      final Player player = playerService.getPlayer(name, accountType);
-      return new ResponseEntity<>(player, HttpStatus.OK);
-    } catch (Exception exception) {
-      return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
-    }
+    final Player player = playerService.getPlayer(name, accountType);
+    return new ResponseEntity<>(player, HttpStatus.OK);
   }
 }

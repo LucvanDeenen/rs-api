@@ -33,15 +33,15 @@ public class PlayerServiceImpl implements PlayerService {
 
   @Override
   public Player getPlayer(String username, String type) {
-    Validator.checkEmpty(username, NAME);
-    AccountType accountType = Validator.parseEnum(
+    final AccountType accountType = Validator.parseEnum(
         type,
         ACCOUNT_TYPE,
         AccountType.class,
         AccountType.NORMAL
     );
+    Validator.checkEmpty(username, NAME);
 
-    User user = connector.getUser(username, accountType);
+    final User user = connector.getUser(username, accountType);
     return mapper.toPlayer(user);
   }
 }
