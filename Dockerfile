@@ -3,13 +3,13 @@
 # =========================
 FROM maven:3.9.9-eclipse-temurin-17 AS build
 
-# Set workdir and copy all sources
 WORKDIR /app
+
 COPY pom.xml .
 COPY app ./app
+COPY docs ./docs
 
-# Build the Spring Boot App
-RUN mvn clean package -DskipTests
+RUN mvn -B clean package -DskipTests
 
 # =========================
 # Stage 2 — Runtime image
