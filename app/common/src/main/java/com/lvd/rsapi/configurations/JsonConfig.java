@@ -1,0 +1,23 @@
+package com.lvd.rsapi.configurations;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * All configurations with regard to interaction with JSON objects.
+ */
+@Configuration
+public class JsonConfig {
+
+
+  /**
+   * Object mapper config.
+   *
+   * @return instantiated object mapper with config.
+   */
+  @Bean
+  public ObjectMapper objectMapper() {
+    return new ObjectMapper();
+  }
+}

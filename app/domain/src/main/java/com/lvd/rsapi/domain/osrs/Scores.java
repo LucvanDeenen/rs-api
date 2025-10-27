@@ -1,4 +1,4 @@
-package com.lvd.rsapi.incoming.dto;
+package com.lvd.rsapi.domain.osrs;
 
 import lombok.Data;
 

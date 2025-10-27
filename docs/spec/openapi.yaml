@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: "3.1.0"
 info:
   title: RuneScape API Wrapper
   version: 1.0.0
@@ -26,8 +26,9 @@ paths:
             example: "rattesjtaart"
         - name: highscore
           in: query
-          description: The highscore category to query.
-          required: true
+          description: >
+            The highscore category to query. Defaults to NORMAL if not provided.
+          required: false
           schema:
             type: string
             enum:
@@ -41,14 +42,14 @@ paths:
               - FRESH_START_WORLD
               - PURE
               - LEVEL_3_SKILLER
-            example: "NORMAL"
+            default: NORMAL
       responses:
         '200':
           description: Player stats successfully retrieved.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Player'
         '400':
           description: Invalid input (missing or invalid parameters).
         '404':
@@ -58,58 +59,25 @@ paths:
 
 components:
   schemas:
-    User:
+    Player:
       type: object
-      description: Structured player profile with stats and activities.
+      description: Player object containing name, metadata, and stats.
       properties:
         name:
           type: string
           example: "rattesjtaart"
-        skills:
-          type: array
-          items:
-            $ref: '#/components/schemas/Skill'
-        activities:
-          type: array
-          items:
-            $ref: '#/components/schemas/Activity'
-
-    Skill:
-      type: object
-      description: Skill entry from the OSRS hiscores.
-      properties:
-        id:
-          type: integer
-          example: 1
-        name:
-          type: string
-          example: "Attack"
-        rank:
-          type: integer
-          example: 47713
-        level:
-          type: integer
-          example: 99
-        xp:
-          type: integer
-          example: 27262136
-
-    Activity:
-      type: object
-      description: Activity or minigame entry from the OSRS hiscores.
-      properties:
-        id:
-          type: integer
-          example: 4
-        name:
-          type: string
-          example: "Barrows Chests"
-        rank:
-          type: integer
-          example: 609283
-        score:
-          oneOf:
-            - type: integer
-              example: 74
-            - type: string
-              example: "unranked"
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            accountType: "NORMAL"
+            lastUpdated: "2025-10-13T10:00:00Z"
+        stats:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            Attack: "99"
+            Defence: "85"
+            Hitpoints: "99"

@@ -1,6 +1,6 @@
 package com.lvd.rsapi.application;
 
-import static com.lvd.rsapi.application.constants.Constants.PROPERTIES;
+import static com.lvd.rsapi.application.constants.ApplicationConstants.PROPERTIES;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

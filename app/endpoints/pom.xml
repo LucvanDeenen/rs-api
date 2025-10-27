@@ -1,20 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>rsapi-endpoints</artifactId>
+  <build>
+    <plugins>
+      <!-- Spec copy -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/../../docs/target/classes</directory>
+                  <includes>
+                    <include>openapi.yaml</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <id>copy-openapi-spec</id>
+            <phase>generate-sources</phase>
+          </execution>
+        </executions>
+        <version>${maven-resource.version}</version>
+      </plugin>
+
+      <!-- API Generation -->
+      <plugin>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <apiPackage>${codegen.directory}.api</apiPackage>
+              <configOptions>
+                <delegatePattern>true</delegatePattern>
+                <useSpringBoot3>true</useSpringBoot3>
+                <basePath>""</basePath>
+              </configOptions>
+              <generateApiTests>false</generateApiTests>
+              <generateApis>true</generateApis>
+              <generateModelTests>false</generateModelTests>
+              <generateModels>false</generateModels>
+              <generatorName>spring</generatorName>
+              <inputSpec>
+                ${project.build.directory}/openapi.yaml
+              </inputSpec>
+              <modelPackage>${codegen.directory}.model</modelPackage>
+            </configuration>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <id>generate-api</id>
+          </execution>
+        </executions>
+        <groupId>org.openapitools</groupId>
+        <version>${openapi.version}</version>
+      </plugin>
+
+      <!-- Workaround for unwanted openapi test generation -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <delete dir="${project.build.directory}/generated-sources/openapi/src/test" />
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
+    <!-- Runtime -->
     <dependency>
       <artifactId>spring-boot-starter-web</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <scope>provided</scope>
+      <artifactId>swagger-parser</artifactId>
+      <groupId>io.swagger.parser.v3</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <groupId>org.openapitools</groupId>
+    </dependency>
+
+    <!-- Layer Dependency -->
+    <dependency>
+      <artifactId>rsapi-common</artifactId>
+      <groupId>com.lvd.rsapi</groupId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>rsapi-domain</artifactId>
+      <groupId>com.lvd.rsapi</groupId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>rsapi-services</artifactId>
+      <groupId>com.lvd.rsapi</groupId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
-  <modelVersion>4.0.0</modelVersion>
 
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>app</artifactId>
     <groupId>com.lvd.rsapi</groupId>
