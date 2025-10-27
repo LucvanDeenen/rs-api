@@ -29,7 +29,7 @@ ENV JAVA_OPTS=""
 
 # Healthcheck for Docker (optional)
 HEALTHCHECK --interval=30s --timeout=5s \
-  CMD curl -f http://localhost:${PORT}/api/v1/osrs/actuator/health || exit 1
+  CMD curl -f http://localhost:${PORT}/actuator/health || exit 1
 
 # Run the application
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar --server.port=${PORT}"]
